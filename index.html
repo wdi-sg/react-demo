@@ -1,45 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>babel demo</title>
-</head>
-<body>
-  hello
-  <div id="root"></div>
-<script src="babel.js"></script>
-<script src="react.js"></script>
-<script src="react-dom.js"></script>
-<script>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class App extends React.Component {
 
-  // using babel 5.8.24
-  var reactJsx = `class Greeting extends React.Component {
-      render() {
-          return (<p>Hello world</p>);
+        constructor() {
+          super();
+          this.state = {
+            toDos: ['Mow the lawn', 'Get groceries', 'Finish WDI'],
+            newItem: ''
+          };
+        }
+        clear() {
+          this.setState({toDos: []});
+        }
+        newItemChange(e) {
+          this.setState({newItem: e.target.value});
+        }
+        addItem(e) {
+          e.preventDefault();
+          const toDos = this.state.toDos;
+          toDos.push(this.state.newItem);
+          this.setState({toDos: toDos, newItem: ''});
+        }
+        render() {
+          return (
+            <div className="well">
+              <h1>To Do List</h1>
+              <button onClick={this.clear}>Clear</button>
+              <form onSubmit={this.addItem}>
+                <input type="text"
+                 placeholder="Item goes here"
+                 onChange={this.newItemChange}
+                 value={this.state.newItem}
+                />
+              </form>
+              <ToDoList items={this.state.toDos}></ToDoList>
+            </div>
+          );
+        }
       }
-  }
-  ReactDOM.render(
-      <Greeting />,
-      document.getElementById('root')
-  );`;
 
-  // the default available variable / instance
-  console.log( babel );
+      ReactDOM.render(
+        <App/>,
+        document.getElementById('root')
+      );
 
-  // the default transformation function
-  console.log( babel.transform );
+    </script>
+    <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
 
-  // run it
-  var result = babel.transform( reactJsx, {} );
+      To set up a production-ready React build environment, follow these instructions:
+      * https://reactjs.org/docs/add-react-to-a-new-app.html
+      * https://reactjs.org/docs/add-react-to-an-existing-app.html
 
-  console.log( result );
-
-  // output something
-  // access the string of the result
-  console.log( result.code );
-
-  eval( result.code );
-</script>
-</body>
+      You can also use React without JSX, in which case you can remove Babel:
+      * https://reactjs.org/docs/react-without-jsx.html
+      * https://reactjs.org/docs/cdn-links.html
+    -->
+  </body>
 </html>
