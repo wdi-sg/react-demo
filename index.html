@@ -7,7 +7,10 @@
 </head>
 <body>
   hello
+  <div id="root"></div>
 <script src="babel.js"></script>
+<script src="react.js"></script>
+<script src="react-dom.js"></script>
 <script>
 
   // using babel 5.8.24
@@ -35,6 +38,8 @@
   // output something
   // access the string of the result
   console.log( result.code );
+
+  eval( result.code );
 </script>
 </body>
 </html>
